@@ -27,6 +27,13 @@ class Command_Dispatcher:
     def __init__(self,entries=None):
         self.functions = entries
         return 
+
+    #
+    # Return representation of  the list    
+    def __repr__(self):
+        if len(self.functions) > 0:
+            return ("Count: {} Content: {}".format(len(self.functions),self.functions))
+  
     #
     # Set the dictionary of command : function pairs   
     def set_commands(self,entries):
@@ -43,11 +50,8 @@ class Command_Dispatcher:
 
             query_command is a string containing the command
         """
-        try:
-            _ = self.functions [query_command]
-            return True
-        except:
-            return False  
+
+        return  self.functions.get(query_command)
 
     def execute(self,query_command,**kwargs):
         """ Execute the requested command
@@ -57,7 +61,6 @@ class Command_Dispatcher:
             each command.
         """
 
-        print (query_command)
         if self.isvalid(query_command):
             method_name = self.functions [query_command]
             method = getattr(self, method_name, lambda: "Invalid command")
